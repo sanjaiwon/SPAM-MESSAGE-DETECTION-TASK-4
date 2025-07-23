@@ -77,4 +77,4 @@ This project provides a strong foundation for understanding how NLP and machine 
 
 *OUTPUT*:
 
-
+![Image](https://github.com/user-attachments/assets/cffd00f6-a92b-4495-b96c-9807655e8af9)
