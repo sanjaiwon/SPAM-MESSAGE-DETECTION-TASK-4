@@ -12,7 +12,7 @@
 
 *MENTOR*:NEELA SANTOSH 
 
-*PROCESS DESCRIPTION":
+*PROCESS DESCRIPTION*:
 
 The Spam Message Detection using NLP and ML project demonstrates a practical application of Natural Language Processing (NLP) and Machine Learning (ML) to solve a real-world problem—identifying spam messages. Developed by Sanjai Krishnan. S as part of Task 3 during an internship at Codetech IT Solutions, this project classifies text messages as either "spam" or "ham" (non-spam) using a supervised learning approach with TF-IDF vectorization and the Naive Bayes classifier.
 
