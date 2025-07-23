@@ -1,0 +1,81 @@
+# Project Title: Spam Message Detection using NLP and ML
+# Intern: Sanjai Krishnan . S
+# College: Rajalakshmi Institute of Technology
+# Internship Company: Codetech IT Solutions
+# Description: A simple spam message classifier using TF-IDF and Naive Bayes.
+# Libraries Used: Pandas, Scikit-learn, Seaborn, Matplotlib
+# ------------------------------------------------------------
+
+# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+# Sample dataset (no external file needed)
+data = {
+    'label': ['ham', 'ham', 'spam', 'ham', 'spam', 'spam', 'ham', 'ham', 'spam', 'spam'],
+    'message': [
+        "Hey, are we still meeting today?",
+        "Ok lar... Joking wif u oni...",
+        "Free entry in a contest! Text WIN to 80082!",
+        "Can we call later?",
+        "Congratulations! You've won a prize. Call now.",
+        "WINNER!! Click here to claim your $1000 gift card.",
+        "I'll be home in 10 minutes.",
+        "How about lunch at 1?",
+        "Get cheap meds online. No prescription needed.",
+        "You’ve been selected for a cash reward. Act fast!"
+    ]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+df['label'] = df['label'].map({'ham': 0, 'spam': 1})
+
+# Features and labels
+X = df['message']
+y = df['label']
+
+# Split the data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# TF-IDF vectorization
+vectorizer = TfidfVectorizer(stop_words='english')
+X_train_tfidf = vectorizer.fit_transform(X_train)
+X_test_tfidf = vectorizer.transform(X_test)
+
+# Train model
+model = MultinomialNB()
+model.fit(X_train_tfidf, y_train)
+
+# Predict and evaluate
+y_pred = model.predict(X_test_tfidf)
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+# Confusion matrix
+conf_matrix = confusion_matrix(y_test, y_pred)
+sns.heatmap(conf_matrix, annot=True, cmap='Blues', fmt='d')
+plt.title("Confusion Matrix")
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.show()
+
+# Custom message prediction
+custom_messages = [
+    "Win a free vacation to Bahamas. Call now!",
+    "Are you joining the meeting at 10?",
+    "Urgent! Your bank account has been compromised. Click the link.",
+    "See you at the gym tonight!"
+]
+custom_tfidf = vectorizer.transform(custom_messages)
+custom_preds = model.predict(custom_tfidf)
+
+print("\nCustom Message Predictions:")
+for msg, pred in zip(custom_messages, custom_preds):
+    print(f"'{msg}' => {'Spam' if pred == 1 else 'Ham'}")
